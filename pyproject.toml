@@ -1,0 +1,56 @@
+[project]
+name = "torch-exp"
+version = "0.1.0"
+description = "Experiment on Torch and its dependencies"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+cpu = [
+    "torch>=2.7.1",
+    "torchvision>=0.22.1"
+]
+gpu = [
+    "torch>=2.7.1",
+    "torchvision>=0.22.1",
+]
+
+[tool.uv]
+conflicts = [
+  [
+    { extra = "cpu" },
+    { extra = "gpu" },
+  ],
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-gpu", extra = "gpu" },
+]
+torchvision = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-gpu", extra = "gpu" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+
+[[tool.uv.index]]
+name = "pytorch-gpu"
+url = "https://download.pytorch.org/whl"
+explicit = true
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+[project.scripts]
+torch-exp = "src.main:create_model"
